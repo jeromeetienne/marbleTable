@@ -47,7 +47,7 @@ require(['tquery.cannonjs', 'tquery.poolball', 'tquery.shadowmap', 'tquery.devic
 	if( true && WebAudio.isAvailable ){
 		world.getWebAudio().volume(10)
 		sounds	= {};
-		sounds.impact	= tQuery.createSound().load('../../assets/sounds/kick.wav');
+		sounds.impact	= tQuery.createSound().load('assets/sounds/kick.wav');
 		sounds.spawn	= tQuery.createSound().generateWithJsfx(["saw",2.0000,1.0000,0.0000,0.1580,0.0000,0.3620,20.0000,478.0000,2400.0000,0.2000,0.0000,0.3160,17.5264,0.0003,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
 		sounds.goal	= tQuery.createSound().generateWithJsfx(["square",2.0000,1.0000,0.0000,0.2400,0.0000,0.4200,20.0000,447.0000,2400.0000,0.1960,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.0420,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
 		sounds.bumper	= tQuery.createSound().generateWithJsfx(["square",0.0000,0.4000,0.0000,0.0080,0.0000,0.2660,20.0000,669.0000,2400.0000,-0.6220,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.4275,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
@@ -71,7 +71,7 @@ require(['tquery.cannonjs', 'tquery.poolball', 'tquery.shadowmap', 'tquery.devic
 
 
 	var cameraContainer	= tQuery.createObject3D().addTo(world)
-	cameraContainer.add(world.tCamera())
+	cameraContainer.add(world.tCamera()) 
 
 	var table	= tQuery.createObject3D().addTo(world)
 	var tileW	= 0.2;
@@ -139,7 +139,7 @@ var ball	= (function(){
 				.addCannonjs()
 					.addTo(physicsWorld)
 					.back()
-	var url	= '../../assets/images/plywood.jpg';
+	var url	= 'assets/images/plywood.jpg';
 	object3D.get(0).material.bumpMap	= THREE.ImageUtils.loadTexture(url);
 	object3D.get(0).material.bumpScale	= 0.0025
 	object3D.cannonjs().body().addEventListener("collide",function(event){
@@ -387,7 +387,7 @@ world.loop().hook(function(delta, now){
 	}
 	function addWall(x1, z1, x2, z2){
 		var texture	= cache.getSet('texture.wood', function(){
-			return THREE.ImageUtils.loadTexture('../../assets/images/wood.jpg')
+			return THREE.ImageUtils.loadTexture('assets/images/wood.jpg')
 		});
 
 		var width	= Math.abs(x2 - x1);
@@ -422,7 +422,7 @@ world.loop().hook(function(delta, now){
 
 	function addGround(x1, z1, x2, z2){
 		var texture	= cache.getSet('texture.plywood', function(){
-			return THREE.ImageUtils.loadTexture('../../assets/images/plywood.jpg')
+			return THREE.ImageUtils.loadTexture('assets/images/plywood.jpg')
 		});
 		var width	= Math.abs(x2 - x1);
 		var height	= 0.25;
@@ -453,7 +453,7 @@ world.loop().hook(function(delta, now){
 		
 	function addHole(gridX, gridZ){
 		var texture	= cache.getSet('texture.rocks', function(){
-			return THREE.ImageUtils.loadTexture('../../assets/images/rocks.jpg')
+			return THREE.ImageUtils.loadTexture('assets/images/rocks.jpg')
 		})
 		var object3D	= tQuery.createSphere().addTo(world)
 			.addClass('hole')
