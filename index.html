@@ -45,11 +45,11 @@ require(['tquery.cannonjs', 'tquery.poolball', 'tquery.shadowmap', 'tquery.devic
 	WebAudio.isAvailable && world.enableWebAudio();
 	var sounds	= null;
 	if( true && WebAudio.isAvailable ){
-		world.getWebAudio().volume(10)
+		world.getWebAudio().volume(3)
 		sounds	= {};
 		sounds.impact	= tQuery.createSound().load('assets/sounds/kick.wav');
 		sounds.roll	= tQuery.createSound().load('assets/sounds/roll.mp3');
-		sounds.spawn	= tQuery.createSound().generateWithJsfx(["saw",2.0000,1.0000,0.0000,0.1580,0.0000,0.3620,20.0000,478.0000,2400.0000,0.2000,0.0000,0.3160,17.5264,0.0003,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
+		sounds.spawn	= tQuery.createSound().generateWithJsfx(["saw",2.0000,1.0000,0.0000,0.1580,0.0000,0.3620,20.0000,478.0000,2400.0000,0.2000,0.0000,0.3160,17.5264,0.0003,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]).volume(0.3);
 		sounds.goal	= tQuery.createSound().generateWithJsfx(["square",2.0000,1.0000,0.0000,0.2400,0.0000,0.4200,20.0000,447.0000,2400.0000,0.1960,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.0420,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
 		sounds.bumper	= tQuery.createSound().generateWithJsfx(["square",0.0000,0.4000,0.0000,0.0080,0.0000,0.2660,20.0000,669.0000,2400.0000,-0.6220,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.4275,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
 	}
@@ -143,23 +143,25 @@ var ball	= (function(){
 	var url	= 'assets/images/plywood.jpg';
 	object3D.get(0).material.bumpMap	= THREE.ImageUtils.loadTexture(url);
 	object3D.get(0).material.bumpScale	= 0.0025
+	// make a sound on collision
 	object3D.cannonjs().body().addEventListener("collide",function(event){
+		if( !sounds )	return;
 		var body	= object3D.cannonjs().body();
 		var speed	= body.velocity.norm();
-		if( sounds ){
-			var sound	= sounds.impact.play();
-			sound.node.gain.value	= (speed*speed)/75;
-		}
+		var sound	= sounds.impact.play();
+		sound.node.gain.value	= (speed*speed)/75;
 	});
-
+	// start spawning sound
+	sounds && sounds.spawn.play();
+	// make the impact sound follow the ball
+	sounds && sounds.impact.follow(object3D, world)
 	// handle rolling sound
 	var sound	= null;
 	world.loop().hook(function(delta, now){
-		if( !sounds )	return;
-		if( sounds.roll.isPlayable() === false )	return;
-		if( sound === null ){
-			sound	= sounds.roll.loop(true).follow(object3D, world).play();		
-		}
+		// if sounds.roll isnt available, return now
+		if( !sounds || sounds.roll.isPlayable() === false )	return;
+		// start the sound occurence
+		sound	= sound || sounds.roll.loop(true).follow(object3D, world).play();		
 		// compute body speed
 		var body	= object3D.cannonjs().body();
 		var speed	= body.velocity.norm();
@@ -169,11 +171,10 @@ var ball	= (function(){
 		var onGround	= body.position.y >= 0.25 && body.position.y <= 0.3;
 		sound.node.gain.value		= onGround ? 0.05 : 0;			
 	})
-	sounds && sounds.spawn.play();
 	return object3D;
 })();
-window.ball	= ball;
-	// if the ball is too low, kill it
+
+	// if the ball is below the table, kill it
 	world.loop().hook(function(delta, now){
 		var position	= ball.cannonjs().body().position;
 		if( position.y < -2 ){
@@ -235,7 +236,7 @@ if(true){
 	object3D.get(0).lookAt(new THREE.Vector3(0,0,0))
 	cameraTargets.push(object3D)
 
-	var object3D	= tQuery(new THREE.Camera()).position(0,10,5)
+	var object3D	= tQuery(new THREE.Camera()).position(0,20,10)
 				.addTo(cameraContainer)
 	object3D.get(0).lookAt(new THREE.Vector3(0,0,0))
 	cameraTargets.push(object3D)
