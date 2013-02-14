@@ -39,7 +39,7 @@ require(['tquery.cannonjs', 'tquery.poolball', 'tquery.shadowmap', 'tquery.devic
 	world.tCamera().lookAt(new THREE.Vector3(0,0,0))
 
 	// put some post effect
-//	tQuery.createEffectComposer().renderPass().vignette().finish();
+	tQuery.createEffectComposer().renderPass().vignette().finish();
 	
 	// enable webaudio
 	WebAudio.isAvailable && world.enableWebAudio();
@@ -48,6 +48,7 @@ require(['tquery.cannonjs', 'tquery.poolball', 'tquery.shadowmap', 'tquery.devic
 		world.getWebAudio().volume(10)
 		sounds	= {};
 		sounds.impact	= tQuery.createSound().load('assets/sounds/kick.wav');
+		sounds.roll	= tQuery.createSound().load('assets/sounds/roll.mp3');
 		sounds.spawn	= tQuery.createSound().generateWithJsfx(["saw",2.0000,1.0000,0.0000,0.1580,0.0000,0.3620,20.0000,478.0000,2400.0000,0.2000,0.0000,0.3160,17.5264,0.0003,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
 		sounds.goal	= tQuery.createSound().generateWithJsfx(["square",2.0000,1.0000,0.0000,0.2400,0.0000,0.4200,20.0000,447.0000,2400.0000,0.1960,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.0420,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
 		sounds.bumper	= tQuery.createSound().generateWithJsfx(["square",0.0000,0.4000,0.0000,0.0080,0.0000,0.2660,20.0000,669.0000,2400.0000,-0.6220,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.4275,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
@@ -150,6 +151,24 @@ var ball	= (function(){
 			sound.node.gain.value	= (speed*speed)/75;
 		}
 	});
+
+	// handle rolling sound
+	var sound	= null;
+	world.loop().hook(function(delta, now){
+		if( !sounds )	return;
+		if( sounds.roll.isPlayable() === false )	return;
+		if( sound === null ){
+			sound	= sounds.roll.loop(true).follow(object3D, world).play();		
+		}
+		// compute body speed
+		var body	= object3D.cannonjs().body();
+		var speed	= body.velocity.norm();
+		// set playbackRate depending on speed
+		sound.node.playbackRate.value	= 0.00001 + speed * 1;
+		// if the ball dont touch the ground, gain is 0
+		var onGround	= body.position.y >= 0.25 && body.position.y <= 0.3;
+		sound.node.gain.value		= onGround ? 0.05 : 0;			
+	})
 	sounds && sounds.spawn.play();
 	return object3D;
 })();
@@ -162,6 +181,8 @@ window.ball	= ball;
 			sounds && sounds.spawn.play();
 		}
 	})
+	
+	
 if(true){
 	//////////////////////////////////////////////////////////////////////////
 	//		User Controls						//
