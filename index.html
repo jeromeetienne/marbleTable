@@ -49,7 +49,7 @@ require(['tquery.cannonjs', 'tquery.poolball', 'tquery.shadowmap', 'tquery.devic
 		sounds	= {};
 		sounds.impact	= tQuery.createSound().load('assets/sounds/kick.wav');
 		sounds.roll	= tQuery.createSound().load('assets/sounds/roll.mp3');
-		sounds.spawn	= tQuery.createSound().generateWithJsfx(["saw",2.0000,1.0000,0.0000,0.1580,0.0000,0.3620,20.0000,478.0000,2400.0000,0.2000,0.0000,0.3160,17.5264,0.0003,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]).volume(0.3);
+		sounds.spawn	= tQuery.createSound().generateWithJsfx(["saw",2.0000,1.0000,0.0000,0.1580,0.0000,0.3620,20.0000,478.0000,2400.0000,0.2000,0.0000,0.3160,17.5264,0.0003,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]).volume(0.1);
 		sounds.goal	= tQuery.createSound().generateWithJsfx(["square",2.0000,1.0000,0.0000,0.2400,0.0000,0.4200,20.0000,447.0000,2400.0000,0.1960,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.0420,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
 		sounds.bumper	= tQuery.createSound().generateWithJsfx(["square",0.0000,0.4000,0.0000,0.0080,0.0000,0.2660,20.0000,669.0000,2400.0000,-0.6220,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.4275,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000]);
 	}
@@ -194,6 +194,9 @@ if(true){
 		// if disablePlayerControls is true, return now
 		if( disablePlayerControls )	return;
 		
+		// prevent controls if the ball isnt on the ground
+		if( ball.positionY() > 0.5 )	return;			
+				
 		// compute the force depending on keyboard
 		var keyboard	= tQuery.keyboard();
 		var force	= tQuery.createVector3();
@@ -236,7 +239,7 @@ if(true){
 	object3D.get(0).lookAt(new THREE.Vector3(0,0,0))
 	cameraTargets.push(object3D)
 
-	var object3D	= tQuery(new THREE.Camera()).position(0,20,10)
+	var object3D	= tQuery(new THREE.Camera()).position(0,10,5)
 				.addTo(cameraContainer)
 	object3D.get(0).lookAt(new THREE.Vector3(0,0,0))
 	cameraTargets.push(object3D)
