@@ -1,4 +1,6 @@
-<!doctype html><title>Marble Labyrinth</title>
+<!doctype html>
+<html manifest='manifest.appcache'>
+<title>Marble Labyrinth</title>
 <script src="vendor/tquery/build/tquery-bundle-require.js"></script>
 <script src="vendor/microcache.js"></script>
 <body><div id="info" style="z-index: 2">
@@ -11,7 +13,27 @@
 	<a href='http://schteppe.github.com/cannon.js/' target='_blank'>cannon.js</a> for physics
 	<br/>
 	Press 1 to 4 to change camera position
-</div><script>
+</div>
+<style>
+#timer {
+	position	: absolute;
+	top		: 0px;
+	right		: 0;
+	z-index		: 10;
+
+	font-family	: arial, verdana, sans-serif;
+	font-size	: 300%;
+	font-weight	: bolder;
+
+	color		: #000;
+	text-shadow	: 0 0 0.2em #fbc, 0 0 0.2em #fbc, 0 0 0.2em #fbc;
+
+	padding-left	: 10px;
+	padding-right	: 10px;
+}
+</style>
+<div id="timer">Ready ?</div>
+<script>
 requirejs.config({
 	paths	: {
 		"build"		: "vendor/tquery/build",
@@ -28,6 +50,28 @@ require(['tquery.cannonjs', 'tquery.poolball', 'tquery.shadowmap', 'tquery.devic
 				.shadowMapEnabled(true)
 
 	world.tCamera().position.z	= 15;
+	
+	// display timer
+	var startTime	= Date.now();
+	world.loop().hook(function(){
+		var deltaTime	= Date.now() - startTime
+		var nMilliSecs	= Math.round(deltaTime) % 1000;
+		var nSeconds	= Math.round(deltaTime / 1000) % 60;
+		var nMinutes	= Math.round(deltaTime / (60*1000))
+		
+		
+		
+		var stringPadder= function(value, width, padChar){
+			var maxPadded	= Array(width+1).join(padChar) + value;
+			return maxPadded.substr(maxPadded.length-width);
+		}
+		var element	= document.querySelector('#timer');
+		element.innerText= stringPadder(nMinutes, 2, '0')
+					+ ':'
+					+ stringPadder(nSeconds, 2, '0')
+					+ ':'
+					+ stringPadder(nMilliSecs, 3, '0');
+	})
 
 	var cache	= new Microcache();
 	
@@ -180,6 +224,7 @@ var ball	= (function(){
 		if( position.y < -2 ){
 			ball.cannonjs().position(startPosition.x, startPosition.y, startPosition.z);
 			sounds && sounds.spawn.play();
+			startTime	= Date.now();
 		}
 	})
 	
@@ -535,6 +580,7 @@ world.loop().hook(function(delta, now){
 				// spawn
 				ball.cannonjs().position(startPosition.x, startPosition.y, startPosition.z)
 				sounds && sounds.spawn.play();
+				startTime	= Date.now();
 			}, animationDelay)
 		});
 	}
@@ -584,6 +630,7 @@ world.loop().hook(function(delta, now){
 				disablePlayerControls	= false;
 				ball.cannonjs().position(startPosition.x, startPosition.y, startPosition.z)
 				sounds && sounds.spawn.play();
+				startTime	= Date.now();
 			}, animationDelay)
 		});
 	}
