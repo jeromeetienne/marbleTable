@@ -1,5 +1,4 @@
-CACHE MANIFEST 
-# added time counter
+CACHE MANIFEST
 
 CACHE:
 .
@@ -14,26 +13,26 @@ vendor/tquery/plugins/webaudio/vendor/webaudio-bundle.js
 vendor/tquery/plugins/webaudio/vendor/jsfx/audio.js
 vendor/tquery/vendor/threex/THREEx.KeyboardState.js
 vendor/tquery/plugins/skymap/tquery.cubetexture.js
-vendor/tquery/vendor/three.js/shaders/BleachBypassShader.js
-vendor/tquery/vendor/three.js/shaders/BlendShader.js
-vendor/tquery/vendor/three.js/shaders/CopyShader.js
-vendor/tquery/vendor/three.js/shaders/ColorifyShader.js
-vendor/tquery/vendor/three.js/shaders/ConvolutionShader.js
-vendor/tquery/vendor/three.js/shaders/FilmShader.js
-vendor/tquery/vendor/three.js/shaders/FXAAShader.js
-vendor/tquery/vendor/three.js/shaders/HorizontalBlurShader.js
-vendor/tquery/vendor/three.js/shaders/SepiaShader.js
-vendor/tquery/vendor/three.js/shaders/VerticalBlurShader.js
-vendor/tquery/vendor/three.js/shaders/VignetteShader.js
-vendor/tquery/vendor/three.js/postprocessing/EffectComposer.js
-vendor/tquery/vendor/three.js/postprocessing/BloomPass.js
-vendor/tquery/vendor/three.js/postprocessing/DotScreenPass.js
-vendor/tquery/vendor/three.js/postprocessing/FilmPass.js
-vendor/tquery/vendor/three.js/postprocessing/MaskPass.js
-vendor/tquery/vendor/three.js/postprocessing/RenderPass.js
-vendor/tquery/vendor/three.js/postprocessing/SavePass.js
-vendor/tquery/vendor/three.js/postprocessing/ShaderPass.js
-vendor/tquery/vendor/three.js/postprocessing/TexturePass.js
+vendor/tquery/vendor/three.js/examples/js/shaders/BleachBypassShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/BlendShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/CopyShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/ColorifyShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/ConvolutionShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/FilmShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/FXAAShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/HorizontalBlurShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/SepiaShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/VerticalBlurShader.js
+vendor/tquery/vendor/three.js/examples/js/shaders/VignetteShader.js
+vendor/tquery/vendor/three.js/examples/js/postprocessing/EffectComposer.js
+vendor/tquery/vendor/three.js/examples/js/postprocessing/BloomPass.js
+vendor/tquery/vendor/three.js/examples/js/postprocessing/DotScreenPass.js
+vendor/tquery/vendor/three.js/examples/js/postprocessing/FilmPass.js
+vendor/tquery/vendor/three.js/examples/js/postprocessing/MaskPass.js
+vendor/tquery/vendor/three.js/examples/js/postprocessing/RenderPass.js
+vendor/tquery/vendor/three.js/examples/js/postprocessing/SavePass.js
+vendor/tquery/vendor/three.js/examples/js/postprocessing/ShaderPass.js
+vendor/tquery/vendor/three.js/examples/js/postprocessing/TexturePass.js
 vendor/tquery/plugins/shadowmap/tquery.light.shadowmap.js
 vendor/tquery/plugins/deviceorientation/tquery.deviceorientation.js
 vendor/tquery/plugins/webaudio/vendor/webaudio.sound.jsfx.js

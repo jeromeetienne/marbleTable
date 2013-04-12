@@ -7,11 +7,20 @@
 	var world	= tQuery.createWorld().boilerplate().start();
 	var object3d	= tQuery.createTorus().addTo(world);
 	
-	world.loop().hook(function(){
+	// at every frame
+	world.hook(function(){
 		if( tQuery.keyboard().pressed('a') ){
 			object3d.scale(2);
 		}else{
 			object3d.scale(1);
 		}
 	})
+	
+	// only on keydown
+	var keyboard	= tQuery.keyboard();
+	keyboard.domElement().addEventListener('keydown', function(){
+		if( keyboard.pressed('left') )	object3d.rotateX( Math.PI/6)
+		if( keyboard.pressed('right') )	object3d.rotateX(-Math.PI/6)
+	});
+	
 </script></body>
