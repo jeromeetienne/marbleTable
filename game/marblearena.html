@@ -391,8 +391,13 @@ if(true){
 (function(){
 	var texture	= THREE.ImageUtils.loadTexture('images/cloud10.png')
 	var maxAge	= 0.7;
-	var tweenOpacity= new TweenMidi(maxAge, 0.1*maxAge, 0.5*maxAge);
-	var tweenScale	= new TweenMidi(maxAge, 0.2*maxAge, 0.2*maxAge);
+	var tweenOpacity= createTweenMidi(maxAge, 0.1*maxAge, 0.5*maxAge);
+	var tweenScale	= (function(){
+		var tweenMidi	= createTweenMidi(maxAge, 0.2*maxAge, 0.2*maxAge);
+		return function(age){
+			return 0.5 + 0.5 * tweenMidi(age)
+		}
+	})();
 	setInterval(function(){
 		var cVelocity	= ball.cannonjs().body().velocity;
 		var playerSpeed	= cVelocity.norm();
@@ -402,12 +407,15 @@ if(true){
 					.map(texture)
 					.color(0xffffff)
 		var object3d	= tQuery.createSprite(material).addTo(world)
-			.scaleBy(0.5)
 			.position(ball.position())
 			.rotation(Math.random() * Math.PI*2)
 		// put the object3d a bit behind the player
 		var velocity	= tQuery.createVector3(cVelocity.x, cVelocity.y, cVelocity.z)
 		object3d.translate(velocity.multiplyScalar(-0.05))
+
+		object3d.scale	( tweenScale(0) )
+		material.opacity( tweenOpacity(0) )			
+
 
 		var birthDate	= tQuery.nowSeconds();
 		var callback	= world.hook(function(delta, now){
@@ -418,19 +426,15 @@ if(true){
 				return;	
 			}
 
-			var scale	= 0.5 + 0.5 * tweenScale.compute(age)
-			object3d.scale(scale)
-			
-			var opacity	= tweenOpacity.compute(age)
-			material.opacity(opacity)			
+			object3d.scale( tweenScale(age) )
+			material.opacity( tweenOpacity(age) )			
 		})
 	}, 1000/20);
 })()
 	
 
-function TweenMidi(maxAge, attackTime, releaseTime){
-	this.maxAge	= maxAge;
-	this.compute	= function(age){
+function createTweenMidi(maxAge, attackTime, releaseTime){
+	return function(age){
 		if( age < attackTime ){
 			return age / attackTime
 		}else if( age < maxAge - releaseTime ){

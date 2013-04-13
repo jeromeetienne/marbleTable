@@ -79,22 +79,40 @@ var velocity	= tQuery.createVector3(cVelocity.x, cVelocity.y, cVelocity.z)
 object3d.translate(velocity.multiplyScalar(-0.05))
 ```
 
-  
-
-### Tween Opacity Based on Age
+### Tween Scale with tweenmidi.js
 
 ```
 // onInit - init your tween
-var tweenOpacity= new TweenMidi(3, 0.5, 0.5);
+var ageToScale	= (function(){
+	//var tweenMidi	= new TweenMidi(3, 0.5, 0.5);
+	var tweenMidi	= createTweenMidi(maxAge, 0.2*maxAge, 0.2*maxAge);
+	return function(age){
+		return 0.5 + 0.5 * tweenMidi(age)
+	}
+})();
 
 // ...
-// onCreate - set the initial value
-var opacity	= tweenOpacity.compute(0)
-material.opacity(opacity)
+// onCreate - set the initial value with age 0
+material.scale( ageToScale(0) )
 
-// ...			
-// onUpdate - update to the current value
-var opacity	= tweenOpacity.compute(age)
-material.opacity(opacity)			
+// ...
+// onUpdate - update value based on age value
+material.scale( ageToScale(age) )	
+```
 
+### Tween Scale with tween.js function
+
+```
+// onInit - init your tween
+var ageToScale	= function(age){
+	return 3 + 3 * TWEEN.Easing.Linear.None(age / maxAge)
+}
+
+// ...
+// onCreate - set the initial value with age 0
+material.scale( ageToScale(0) )
+
+// ...
+// onUpdate - update value based on age value
+material.scale( ageToScale(age) )	
 ```
