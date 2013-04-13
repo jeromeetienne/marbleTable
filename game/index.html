@@ -55,7 +55,8 @@ require([ 'tquery.cannonjs'
 	, 'tquery.webaudio'
 	, 'tquery.keyboard'
 	, 'tquery.skymap'
-	, 'tquery.pproc'], function(){
+	, 'tquery.pproc'
+	], function(){
 	var world	= tQuery.createWorld().boilerplate().start()
 				.shadowMapEnabled(true)
 
@@ -90,7 +91,7 @@ require([ 'tquery.cannonjs'
 	world.camera().lookAt(0,0,0)
 
 	// put some post effect
-	tQuery.createEffectComposer().renderPass().vignette().finish();
+//	tQuery.createEffectComposer().renderPass().vignette().finish();
 	
 	// enable webaudio
 	WebAudio.isAvailable && world.enableWebAudio();
@@ -352,6 +353,7 @@ if(true){
 	});	
 })();
 
+
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 //		add a level							//
@@ -537,7 +539,7 @@ if(true){
 			});
 			// apply impulse to make it jump
 			ball.get(0).updateMatrixWorld();
-			var ballPosition= ball.get(0).matrixWorld.getPosition();
+			var ballPosition= tQuery.createVector3().getPositionFromMatrix( ball.get(0).matrixWorld )
 			var worldPoint	= new CANNON.Vec3(ballPosition.x, ballPosition.y, ballPosition.z);
 			var force	= new CANNON.Vec3(0,80,0);
 			var dt		= 1/10;
