@@ -79,7 +79,7 @@ var velocity	= tQuery.createVector3(cVelocity.x, cVelocity.y, cVelocity.z)
 object3d.translate(velocity.multiplyScalar(-0.05))
 ```
 
-### Tween Scale with tweenmidi.js
+### Tween Property with tweenmidi.js
 
 ```
 // onInit - init your tween
@@ -100,7 +100,7 @@ material.scale( ageToScale(0) )
 material.scale( ageToScale(age) )	
 ```
 
-### Tween Scale with tween.js function
+### Tween Property with tween.js function
 
 ```
 // onInit - init your tween
