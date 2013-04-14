@@ -44,6 +44,19 @@ var object3d	= tQuery.createSprite(material).addTo(world)
 			.position(tick.position())
 ```
 
+### create a THREE.Sprite for your sparkle
+
+```
+var texture	= THREE.ImageUtils.loadTexture('images/blue_particle.jpg')
+var material	= tQuery.createSpriteMaterial()
+			.map(texture)
+			.color(0xAA4488)
+			.transparent(true)
+			.blending(THREE.AdditiveBlending)§		
+var object3d	= tQuery.createSprite(material).addTo(world)
+			.position(tick.position())
+```
+
 ### Steady Rate Emitter
 
 ```
